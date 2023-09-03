@@ -59,6 +59,12 @@ epoxy_deps = [ dl_dep, ]
 if host_system == 'windows'
   epoxy_deps += [ opengl32_dep, gdi32_dep ]
 endif
+if enable_x11
+  epoxy_deps += [ x11_headers_dep, ]
+endif
+if build_egl
+  epoxy_deps += [ elg_headers_dep, ]
+endif
 
 libepoxy = library(
   'epoxy',
@@ -87,6 +93,7 @@ libepoxy_dep = declare_dependency(
     'epoxy_has_wgl': epoxy_has_wgl,
   },
 )
+meson.override_dependency('epoxy', libepoxy_dep)
 
 # We don't want to add these dependencies to the library, as they are
 # not needed when building Epoxy; we do want to add them to the generated
